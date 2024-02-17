@@ -1,16 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'; // Ensure correct import for React 18
 import './index.css';
 import App from './App';
-import { reportWebVitals } from './reportWebVitals'; // Notice the curly braces around reportWebVitals
+import { reportWebVitals } from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// Find the root div in your index.html
+const container = document.getElementById('root');
+
+// Use the createRoot API for React 18
+const root = createRoot(container);
+
+// Render your App component
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// Pass the reportWebVitals function to start measuring performance in your app
-reportWebVitals(console.log); // You can log the results to the console or send them to an analytics endpoint
+// Optional: Pass the reportWebVitals function to log or analyze performance metrics
+reportWebVitals(console.log);
