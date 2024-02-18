@@ -12,7 +12,7 @@ function WordPressPosts() {
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
-  }, []); // The empty array ensures this effect runs only once after the initial render
+  }, []);
 
   return (
     <div>
@@ -33,15 +33,46 @@ function WordPressPosts() {
   );
 }
 
+// New component to fetch and display a specific WordPress page (e.g., static homepage)
+function WordPressHomePage() {
+  const [page, setPage] = useState(null);
+  const pageId = 2; // Replace with the ID of your homepage
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/wp-json/wp/v2/pages/${pageId}`)
+      .then(response => response.json())
+      .then(data => {
+        setPage(data);
+      })
+      .catch(error => {
+        console.error('Error fetching page: ', error);
+      });
+  }, [pageId]);
+
+  return (
+    <div>
+      {page ? (
+        <div>
+          <h1>{page.title.rendered}</h1>
+          <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
+        </div>
+      ) : (
+        <p>Homepage content not found.</p>
+      )}
+    </div>
+  );
+}
+
 const HomePage = () => {
   return (
     <div className="container mt-5">
-      <h1>Welcome to My Websites</h1>
+      <h1>Welcome to My Website</h1>
       <p>This is a simple React website using Bootstrap for styling.</p>
-      <WordPressPosts />
+      <WordPressHomePage />
+      {/* <WordPressPosts /> */}
     </div>
   );
 };
 
-export { WordPressPosts };
+export { WordPressPosts, WordPressHomePage };
 export default HomePage;
